@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="ie=edge",  width="device-width" />
+<link rel="stylesheet" href="style.css" />
+<title>Weather App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <!-- font awesome cdn link -->
+    <script src="https://kit.fontawesome.com/31fa88c62f.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- <link rel="shortcut icon" href="./image/favicon.ico" type="image/x-icon"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+
+ <body>
+     <header>
+                 <div id="home">
+                     <div class="name">
+         <h1><center>Weather App</center>
+             </h1></div>
+     </header>
+     <script>
+    function weather_func()
+        {
+       const str = document.getElementById("user-location").value;
+       console.log(str)
+       const api = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${str}?unitGroup=metric&key=55QRMYCTXQBWDKR8Q4KCD5P6G&contentType=json`;
+       
+  
+  fetch(api)
+   .then(response =>{
+       return response.json();
+   })
+   .then(data=> {
+       console.log(data);
+       const {conditions,temp,icon, humidity,sunrise,sunset,winddir,dew, precip, cloudcover, visibility, uvindex, windgust,windspeed} = data.currentConditions;
+       //const {datetime, tempmax,description}=data.days[1];
+       //const {datetime, tempmax,description}=data.days[2];
+       //const {datetime, tempmax}=data.days[2];
+              //const {datetime,description}=data.days;
+       //Set DOM elements from the API
+    document.getElementById("temperature-degree").innerHTML = temp + "°C";
+    // document.getElementById("icon-weather").innerHTML = icon;
+    document.getElementById("temperature-description").innerHTML = conditions + ", " + data.description;
+    document.getElementById("timezone-heading").innerHTML = data.timezone;
+    document.getElementById("address").innerHTML = "Location: "+data.resolvedAddress
+    document.getElementById("humidity").innerHTML = "Humidity: "+ humidity
+    document.getElementById("sun-rise").innerHTML = "Sunrise: " + sunrise;
+    document.getElementById("sun-set").innerHTML = "Sunset: " + sunset;
+    document.getElementById("wind-direction").innerHTML = "Wind direction: "+winddir;
+    document.getElementById("wind-gust").innerHTML = "Wind gust: "+windgust;
+    document.getElementById("wind-speed").innerHTML = "Wind Speed: "+windspeed;
+    document.getElementById("dew").innerHTML = "Dew: "+ dew;
+    document.getElementById("visibility").innerHTML = "Visibility: "+ visibility;
+    document.getElementById("cloud-cover").innerHTML = "Cloud cover: "+ cloudcover;
+    document.getElementById("precip").innerHTML = "Precipitation: "+ precip;
+    //document.getElementById("uvindex").innerHTML = "UV Index: "+ uvindex;
+    document.getElementById("datetime").innerHTML = "Date: " + data.days[1].datetime;
+    document.getElementById("tempmax").innerHTML = "Temperature: " + data.days[1].temp;
+    document.getElementById("description").innerHTML = data.days[1].description;
+    document.getElementById("datetime1").innerHTML = "Date: " + data.days[2].datetime;
+    document.getElementById("tempmax1").innerHTML = "Temperature: " + data.days[2].temp;
+    document.getElementById("description1").innerHTML = data.days[2].description;
+    document.getElementById("datetime2").innerHTML = "Date: " + data.days[3].datetime;
+    document.getElementById("tempmax2").innerHTML = "Temperature: " + data.days[3].temp;
+    document.getElementById("description2").innerHTML = data.days[3].description;
+    document.getElementById("datetime3").innerHTML = "Date: " + data.days[4].datetime;
+    document.getElementById("tempmax3").innerHTML = "Temperature: " + data.days[4].temp;
+    document.getElementById("description3").innerHTML = data.days[4].description;
+    document.getElementById("datetime4").innerHTML = "Date: " + data.days[5].datetime;
+    document.getElementById("tempmax4").innerHTML = "Temperature: " + data.days[5].temp;
+    document.getElementById("description4").innerHTML = data.days[5].description;
+    document.getElementById("datetime5").innerHTML = "Date: " + data.days[6].datetime;
+    document.getElementById("tempmax5").innerHTML = "Temperature: " + data.days[6].temp;
+    document.getElementById("description5").innerHTML = data.days[6].description;
+    document.getElementById("datetime6").innerHTML = "Date: " + data.days[7].datetime;
+    document.getElementById("tempmax6").innerHTML = "Temperature: " + data.days[7].temp;
+    document.getElementById("description6").innerHTML = data.days[7].description;
+
+    /*document.getElementById("datetime1").innerHTML = "Date: " + days[2].datetime;
+    document.getElementById("tempmax1").innerHTML = "Temperature: " + data.days[2].tempmax;
+    document.getElementById("description1").innerHTML = data.days[2].description;*/
+    
+
+    
+var mapProp= {
+  center:new google.maps.LatLng(data.latitude,data.longitude),
+  zoom: 9,
+};
+var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+
+    //Set Icon
+    setIcons(icon, document.querySelector('.icon1'))
+
+
+    console.log(data.timezone)
+    console.log(data.resolvedAddress)
+     console.log(conditions)
+     console.log(temp)
+     console.log(data.days[1].datetime)
+     console.log(data.days[1].tempmax)
+     console.log(data.days[1].description)
+     //console.log(data.days[2].datetime)
+   });
+
+            
+            
+         
+
+}
+var x = 1;
+var p = 1;
+
+function show_hide1(){
+    if (p == 2)
+    {
+        document.getElementById("read-more-button").style.display = "inline-block";
+        document.getElementById("maps-button").style.display = "inline-block";
+    }
+
+    
+    if(x == 1)
+                {
+                    document.getElementById("read-more-button").style.display = "inline-block";
+                    document.getElementById("maps-button").style.display = "inline-block";
+                    p = 2
+                    return x = 0
+                    
+                    
+                }
+                else{
+                    document.getElementById("read-more-button").style.display = "none";
+                    document.getElementById("maps-button").style.display = "none";
+                    return x = 1;
+
+                }
+
+}
+
+
+
+
+
+
+function setIcons(icon, iconID){
+    const skycons = new Skycons({color: "white"});
+    const currentIcon = icon.replace(/-/g, "_").toUpperCase();
+    skycons.play();
+    return skycons.set(iconID, Skycons[currentIcon])
+}
+     </script>
+     <div class="enter-location">
+
+        <form action="">
+            <input class="box" id="user-location" placeholder="Enter location">
+         </form>
+         <br>
+     </div>
+     
+    <button onClick= "weather_func(), show_hide1(), week_hide()" class="button-27">Click to find weather</button>
+    </div>
+     <center>
+    <div class="location">
+      <br>
+      
+      <br> <br>
+      <h1 id="timezone-heading" style="display: inline-block; width: 80%" class="timezone-heading"></h1>
+      <br> <br>
+      <canvas class="icon1" width="128" height="128"></canvas><br> <br>
+      </i><h4 id="address" style="color: white"></h4> <br>
+      <h5 id="humidity" style="color: white"></h5>
+
+      
+     
+       <br>
+   </div> </center>
+  
+  <div class="temperature">
+      <div class="degree-section">
+        <h2 id= "temperature-degree" class="temperature-degree">
+            
+        </h2>
+        <span></span>
+        </div>
+        <center><p id="temperature-description" style="display: inline-block; text-align: center; align-content: left; left: -2px;"></p></center>
+         
+        
+
+        
+  </div>
+  <div class ="read-more" id="read-more">
+      <div class="arrow">
+    <a href="#home"><i class="fas fa-arrow-up"></i></a>
+    </div>
+    
+    
+    <center>
+        <script>
+            var a = 1;
+            function show_hide()
+            {
+                if(a==1)
+                {
+                    document.getElementById("cards").style.display = "flex";
+                    document.getElementById("weather_button").style.display = "inline-block";
+                    return a = 0;
+                }
+                else{
+                    document.getElementById("cards").style.display = "none";
+                    document.getElementById("weeks").style.display = "none";
+                    document.getElementById("weather_button").style.display = "none";
+                    return a = 1;
+                }
+            }
+            var p = 0;
+            function map_hide(){
+                if(p==1)
+                {
+                    document.getElementById("googleMap").style.display = "flex";
+                    return p = 0;
+                }
+                else{
+                    document.getElementById("googleMap").style.display = "none";
+                    return p = 1;
+                }
+
+            }
+            var y = 1 ;
+            var t = 1;
+            function map_button_hide(){
+                if (t == 2){
+                    document.getElementById("maps-button").style.display = "inline-block";
+
+                }
+                if(y == 1)
+                {
+                    document.getElementById("maps-button").style.display = "inline-block";
+                    t = 2;
+                    return y = 0;
+                }
+                else{
+                    document.getElementById("maps-button").style.display = "none";
+                    return y = 1;
+                }
+
+
+
+            }
+            
+         </script>
+         
+        <button onclick="show_hide()" id="read-more-button" class="button-27">View More/Less</button>
+        
+        
+        <br> <br>
+    <div class="cards" id="cards">
+        <div class="card">
+            <div class="card__inner">
+             <div class="card__face card__face--front">
+                 <h2>Sunset and Sunrise</h2>
+             </div>
+             <div class="card__face card__face--back">
+              <div class="card__content">
+                  <div class="card__header">
+                   <img src="" alt="" class="sun">
+                   <h2 style="color: white;">Timings</h2>
+                  </div>
+                  <div class="card__body">
+                  
+                   <p id="sun-rise"></p>
+                   <p id="sun-set"></p>
+                  </div>
+              </div>
+             </div>
+            </div>
+
+
+        </div>
+        <div class="card">
+            <div class="card__inner1">
+             <div class="card__face card__face--front">
+                 <h2>Wind details</h2>
+             </div>
+             <div class="card__face card__face--back">
+              <div class="card__content">
+                  <div class="card__header">
+                   <img src="" alt="" class="sun">
+                   <h2 style="color: white;">Wind</h2>
+                  </div>
+                  <div class="card__body">
+                  
+                   <p id="wind-direction"></p>
+                   <p id="wind-gust"></p>
+                   <p id="wind-speed"></p>
+                  </div>
+              </div>
+             </div>
+            </div>
+
+
+        </div>
+        <div class="card">
+            <div class="card__inner2">
+             <div class="card__face card__face--front">
+                 <h2 style="color: white;">Visibility</h2>
+             </div>
+             <div class="card__face card__face--back">
+              <div class="card__content">
+                  <div class="card__header">
+                   <img src="" alt="" class="sun">
+                   <h2 style="color: white;">Dew, Precipitation, Cloud cover, visibility</h2>
+                  </div>
+                  <div class="card__body">
+                      <p id="dew"></p>
+                      <p id="precip"></p>
+                      <p id="cloud-cover"></p>
+                      <p id="visibility"></p>
+                      <p id="uvindex"></p>
+                  
+                   <p id="sun-rise"></p>
+                   <p id="sun-set"></p>
+                  </div>
+              </div>
+             </div>
+            </div>
+
+
+        </div>
+        <!-- <button onclick ="week_hide()" id="weather_button" class="button-27" style="text-align: center; padding: 20px; margin: 20px; display:inline-block">View weather of the next week</button> -->
+        <script>
+            var x = 1;
+    function week_hide(){
+
+    
+    if(x==1)
+                {
+                    document.getElementById("weeks").style.display = "flex";
+                    return x = 0;
+                }
+                else{
+                    document.getElementById("weeks").style.display = "none";
+                    return x = 1;
+                }
+
+}
+        </script>
+    </div>
+
+    <br><br><br>
+    <button onclick ="week_hide()" id="weather_button" class="button-27" style="text-align: center; padding: 20px; margin: 20px; display:none">View weather of the next week</button> 
+    <script>
+        var x = 1;
+function week_hide(){
+
+
+if(x==1)
+            {
+                document.getElementById("weeks").style.display = "flex";
+                return x = 0;
+            }
+            else{
+                document.getElementById("weeks").style.display = "none";
+                return x = 1;
+            }
+
+}
+    </script>
+<div class="weeks slider" id="weeks" style="display: none; flex-wrap: wrap; min-width: 75%; max-width: 100%">
+    <div class="week" id="week">
+        <div class="weekicon"><i class="fas fa-cloud-sun"></i></div>
+        <h3 id="datetime"></h3>
+        <h3 id="tempmax"></h3> 
+    <h3 id="description"></h3></div>
+                <div class="week" id="week">
+            <div class="weekicon"><i class="fas fa-cloud-sun"></i></div>
+            <h3 id="datetime1"></h3>
+            <h3 id="tempmax1"></h3> 
+            <h3 id="description1"></h3></div>
+            <div class="week" id="week">
+                <div class="weekicon"><i class="fas fa-cloud-sun"></i></div>
+                <h3 id="datetime2"></h3>
+                <h3 id="tempmax2"></h3> 
+                <h3 id="description2"></h3></div>
+                <div class="week" id="week">
+                    <div class="weekicon"><i class="fas fa-cloud-sun"></i></div>
+                    <h3 id="datetime3"></h3>
+                <h3 id="tempmax3"></h3> 
+                <h3 id="description3"></h3></div>
+                    <div class="week" id="week">
+                        <div class="weekicon"><i class="fas fa-cloud-sun"></i></div>
+                        <h3 id="datetime4"></h3>
+                        <h3 id="tempmax4"></h3> 
+                        <h3 id="description4"></h3></div>
+                        <div class="week" id="week">
+                            <div class="weekicon"><i class="fas fa-cloud-sun"></i></div>
+                            <h3 id="datetime5"></h3>
+                            <h3 id="tempmax5"></h3> 
+                            <h3 id="description5"></h3></div>
+                            <div class="week" id="week">
+                                <div class="weekicon"><i class="fas fa-cloud-sun"></i></div>
+                                <h3 id="datetime6"></h3>
+                                <h3 id="tempmax6"></h3> 
+                                <h3 id="description6"></h3></div>
+                            </div>
+                     </div>
+    </center>
+  </div>
+  <br> <br> <br>
+  <button class="button-27" id="maps-button" onclick="map_hide()" style= "display: none;">View/Minimize Maps</button>
+  <br> <br> <br>
+
+  <div id="googleMap" style="width:80%;height:400px; margin: 15px; display: none;"></div>
+
+<!-- <script>
+function myMap() {
+var mapProp= {
+  center:new google.maps.LatLng(data.latitude,data.longitude),
+  zoom:5,
+};
+var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+}
+</script> -->
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDR_Budeh9nicPGmwu3fKrTg9kp23YmAcA&callback=myMap"></script>
+
+
+  
+
+   
+  <script>
+  const card = document.querySelector('.card__inner');
+  card.addEventListener('click', function () {
+    card.classList.toggle('is_flipped')
+  })
+  const card1 = document.querySelector('.card__inner1');
+  card1.addEventListener('click', function () {
+    card1.classList.toggle('is-flipped1')
+  })
+  const card2 = document.querySelector('.card__inner2');
+  card2.addEventListener('click', function () {
+    card2.classList.toggle('is-flipped2')
+  })
+  </script>
+  
+        <script src="weather.js"></script>
+        <script src="skycons.js"></script>
+       
+ </body>
+</html>
